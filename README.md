@@ -1,1 +1,2 @@
 [![Build Status](https://app.travis-ci.com/MishailEx/job4j_grabber.svg?branch=master)](https://app.travis-ci.com/MishailEx/job4j_grabber)
+[![codecov](https://codecov.io/gh/MishailEx/job4j_grabber/branch/master/graph/badge.svg?token=W8QFCADQO5)](https://codecov.io/gh/MishailEx/job4j_grabber)
