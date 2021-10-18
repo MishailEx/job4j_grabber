@@ -39,16 +39,16 @@ public class AlertRabbit {
             scheduler.scheduleJob(job, trigger);
             Thread.sleep(10000);
             scheduler.shutdown();
-        } catch (SQLException | SchedulerException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (SQLException | SchedulerException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public static Properties config(String path) throws IOException {
         Properties properties = new Properties();
-        properties.load(new FileInputStream(path));
+        try (FileInputStream fileInputStream = new FileInputStream(path)){
+            properties.load(fileInputStream);
+        }
         return properties;
     }
 
