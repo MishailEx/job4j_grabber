@@ -37,7 +37,7 @@ public class AlertRabbit {
                     .withSchedule(times)
                     .build();
             scheduler.scheduleJob(job, trigger);
-            Thread.sleep(5000);
+            Thread.sleep(10000);
             scheduler.shutdown();
         } catch (SQLException | SchedulerException e) {
             e.printStackTrace();
@@ -63,13 +63,12 @@ public class AlertRabbit {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        try (Connection connection = DriverManager.getConnection(
-                properties.getProperty("jdbc.url"),
-                properties.getProperty("jdbc.username"),
-                properties.getProperty("jdbc.password"))) {
-            return connection;
+            return DriverManager.getConnection(
+                    properties.getProperty("jdbc.url"),
+                    properties.getProperty("jdbc.username"),
+                    properties.getProperty("jdbc.password"));
         }
-    }
+
 
     public static class Rabbit implements Job {
         @Override
