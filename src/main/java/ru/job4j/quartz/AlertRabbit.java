@@ -21,32 +21,34 @@ public class AlertRabbit {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (Connection connection = connection(properties)) {
-            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-            scheduler.start();
-            JobDataMap data = new JobDataMap();
-            data.put("connect", connection);
-            JobDetail job = newJob(Rabbit.class)
-                    .usingJobData(data)
-                    .build();
-            SimpleScheduleBuilder times = simpleSchedule()
-                    .withIntervalInSeconds(Integer.parseInt(properties.getProperty("rabbit.interval")))
-                    .repeatForever();
-            Trigger trigger = newTrigger()
-                    .startNow()
-                    .withSchedule(times)
-                    .build();
-            scheduler.scheduleJob(job, trigger);
-            Thread.sleep(10000);
-            scheduler.shutdown();
-        } catch (SQLException | SchedulerException | InterruptedException e) {
-            e.printStackTrace();
+        if (properties != null) {
+            try (Connection connection = connection(properties)) {
+                Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+                scheduler.start();
+                JobDataMap data = new JobDataMap();
+                data.put("connect", connection);
+                JobDetail job = newJob(Rabbit.class)
+                        .usingJobData(data)
+                        .build();
+                SimpleScheduleBuilder times = simpleSchedule()
+                        .withIntervalInSeconds(Integer.parseInt(properties.getProperty("rabbit.interval")))
+                        .repeatForever();
+                Trigger trigger = newTrigger()
+                        .startNow()
+                        .withSchedule(times)
+                        .build();
+                scheduler.scheduleJob(job, trigger);
+                Thread.sleep(10000);
+                scheduler.shutdown();
+            } catch (SQLException | SchedulerException | InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public static Properties config(String path) throws IOException {
         Properties properties = new Properties();
-        try (FileInputStream fileInputStream = new FileInputStream(path)){
+        try (FileInputStream fileInputStream = new FileInputStream(path)) {
             properties.load(fileInputStream);
         }
         return properties;
