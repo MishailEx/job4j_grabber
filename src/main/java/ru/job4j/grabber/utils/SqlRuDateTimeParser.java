@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public class SqlRuDateTimeParser implements DateTimeParser {
-
     private static final Map<String, String> MONTHS =
             Map.ofEntries(Map.entry("янв", "01"), Map.entry("фев", "02"),
                     Map.entry("мар", "03"), Map.entry("апр", "04"),
