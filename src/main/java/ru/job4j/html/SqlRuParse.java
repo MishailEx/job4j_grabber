@@ -57,7 +57,7 @@ public class SqlRuParse implements Parse {
         for (Element td : row) {
             Element parent = td.parent().parent();
             post.setDescription(td.text());
-            post.setTitle(parent.child(1).child(1).text());
+            post.setTitle(parent.child(0).child(0).text());
             LocalDateTime localDateTime = dp.parse(parent.child(2)
                     .child(0).ownText().split("\\[")[0]);
             post.setCreated(localDateTime);
