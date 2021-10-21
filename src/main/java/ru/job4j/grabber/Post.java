@@ -1,6 +1,7 @@
 package ru.job4j.grabber;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Post {
@@ -87,8 +88,7 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", title='" + title + '\''
-                + ", link='" + link + '\'' + ", description='"
-                + description + '\'' + ", created=" + created + '}';
+        return "Номер = " + id + ", Название = " + title.toUpperCase(Locale.ROOT) + ", Ссылка = " + link + System.lineSeparator()
+                + description + System.lineSeparator() + "Созданно = " + created;
     }
 }
