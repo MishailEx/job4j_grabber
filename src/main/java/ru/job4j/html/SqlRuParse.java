@@ -53,15 +53,14 @@ public class SqlRuParse implements Parse {
         Post post = new Post();
         Document doc = Jsoup.connect(link).get();
         Elements row = doc.select(".msgBody").eq(1);
-        SqlRuDateTimeParser dp = new SqlRuDateTimeParser();
-        for (Element td : row) {
+            Element td = row.first();
             Element parent = td.parent().parent();
             post.setDescription(td.text());
             post.setTitle(parent.child(0).child(0).text());
-            LocalDateTime localDateTime = dp.parse(parent.child(2)
+            LocalDateTime localDateTime = dateTimeParser.parse(parent.child(2)
                     .child(0).ownText().split("\\[")[0]);
             post.setCreated(localDateTime);
-        }
+
         post.setLink(link);
         return post;
     }
