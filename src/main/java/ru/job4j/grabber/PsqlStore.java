@@ -27,7 +27,9 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public void save(Post post) {
         try (PreparedStatement statement =
-                     cnn.prepareStatement("insert into post (name, text, link, created) values (?, ?, ?, ?)")) {
+                     cnn.prepareStatement("insert into post (name, text, link, created)"
+                             + " values (?, ?, ?, ?)"
+                             + " ON CONFLICT ON CONSTRAINT post_link_key DO NOTHING")) {
             statement.setString(1, post.getTitle());
             statement.setString(2, post.getDescription());
             statement.setString(3, post.getLink());
@@ -38,19 +40,22 @@ public class PsqlStore implements Store, AutoCloseable {
         }
     }
 
+    private Post resultPost(ResultSet resultSet) throws SQLException {
+        return new Post(resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getString("text"),
+                resultSet.getString("link"),
+                resultSet.getTimestamp("created").toLocalDateTime()
+        );
+    }
+
     @Override
     public List<Post> getAll() {
         List<Post> list = new ArrayList<>();
         try (PreparedStatement statement = cnn.prepareStatement("select * from post")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    list.add(new Post(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("text"),
-                            resultSet.getString("link"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    ));
+                    list.add(resultPost(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -65,18 +70,15 @@ public class PsqlStore implements Store, AutoCloseable {
         try (PreparedStatement statement = cnn.prepareStatement("select * from post where id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    post = new Post(resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("text"),
-                            resultSet.getString("link"),
-                            resultSet.getTimestamp("created").toLocalDateTime());
+                if (resultSet.next()) {
+                        post = resultPost(resultSet);
+                    return post;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return post;
+        return null;
     }
 
 
@@ -92,11 +94,12 @@ public class PsqlStore implements Store, AutoCloseable {
         properties.load(new FileInputStream("./src/main/resources/rabbit.properties"));
         PsqlStore psqlStore = new PsqlStore(properties);
         Post post = new Post("aaa", "bbb", "aaa-ccc", LocalDateTime.now());
-        Post post2 = new Post("bbb", "bbb", "aaa-ggg", LocalDateTime.now());
+        Post post2 = new Post("bbb", "yyyy", "aaa-ggg", LocalDateTime.now());
         psqlStore.save(post);
+        psqlStore.save(post2);
         List<Post> list = psqlStore.getAll();
         list.forEach(System.out::println);
-        Post post1 = psqlStore.findById(2);
+        Post post1 = psqlStore.findById(0);
         System.out.println(post1);
         try {
             psqlStore.close();
