@@ -20,7 +20,6 @@ public class GCDemo {
         for (int i = 0; i < 15625; i++) {
             new User(i, "N");
         }
-//        System.gc();
         info();
     }
 }
