@@ -29,12 +29,18 @@ public class PsqlStore implements Store, AutoCloseable {
         try (PreparedStatement statement =
                      cnn.prepareStatement("insert into post (name, text, link, created)"
                              + " values (?, ?, ?, ?)"
-                             + " ON CONFLICT ON CONSTRAINT post_link_key DO NOTHING")) {
+                             + " ON CONFLICT ON CONSTRAINT post_link_key DO NOTHING",
+                             Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, post.getTitle());
             statement.setString(2, post.getDescription());
             statement.setString(3, post.getLink());
             statement.setTimestamp(4, Timestamp.valueOf(post.getCreated()));
             statement.execute();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    post.setId(generatedKeys.getInt(1));
+                }
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -66,17 +72,18 @@ public class PsqlStore implements Store, AutoCloseable {
 
     @Override
     public Post findById(int id) {
+        Post post = null;
         try (PreparedStatement statement = cnn.prepareStatement("select * from post where id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return resultPost(resultSet);
+                    post = resultPost(resultSet);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return post;
     }
 
 
