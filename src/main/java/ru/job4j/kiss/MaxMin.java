@@ -6,7 +6,19 @@ import java.util.List;
 public class MaxMin {
 
     private static <T> T compare(List<T> value, Comparator<T> comparator) {
-        value.sort(comparator);
+        boolean check = false;
+        T buf;
+        while (!check) {
+            check = true;
+            for (int i = 0; i < value.size() - 1; i++) {
+                if (comparator.compare(value.get(i), value.get(i + 1)) > 0) {
+                    check = false;
+                    buf = value.get(i);
+                    value.set(i, value.get(i + 1));
+                    value.set(i + 1, buf);
+                }
+            }
+        }
         return value.get(0);
     }
 
