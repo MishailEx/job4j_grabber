@@ -6,5 +6,5 @@ import java.util.function.Predicate;
 
 public interface Filter<T> {
     List<T> readFile(Path path);
-    List<T> filter(Predicate predicate, List<T> list);
+    List<T> filter(Predicate<T> predicate, List<T> list);
 }
