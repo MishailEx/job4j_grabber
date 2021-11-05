@@ -7,10 +7,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 @Ignore
 public class CinemaTest {
@@ -41,7 +38,7 @@ public class CinemaTest {
         assertThat(sessions, not(Arrays.asList(new Session2D())));
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = IllegalArgumentException.class)
     public void placeAlreadyBuy() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
@@ -51,7 +48,7 @@ public class CinemaTest {
         Ticket ticket2 = cinema.buy(account, 1, 1, date);
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = NoSuchElementException.class)
     public void wrongDate() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
