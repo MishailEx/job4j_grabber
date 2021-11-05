@@ -1,12 +1,24 @@
 package ru.job4j.design.srp;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.function.Predicate;
 
-public class ReportEngine implements Report {
+public class ReportForIt implements Report {
     private Store store;
 
-    public ReportEngine(Store store) {
+    public ReportForIt(Store store) {
         this.store = store;
+    }
+
+    public boolean convertReport(String text, File file) {
+        try (FileWriter fileWriter = new FileWriter(file)) {
+           fileWriter.write(text);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     @Override

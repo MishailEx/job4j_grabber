@@ -2,11 +2,13 @@ package ru.job4j.design.srp;
 
 import java.util.function.Predicate;
 
-public class ReportEngine implements Report {
+public class ReportForBuh implements Report {
     private Store store;
+    private int convert;
 
-    public ReportEngine(Store store) {
+    public ReportForBuh(Store store, int convert) {
         this.store = store;
+        this.convert = convert;
     }
 
     @Override
@@ -18,7 +20,7 @@ public class ReportEngine implements Report {
             text.append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
                     .append(employee.getFired()).append(";")
-                    .append(employee.getSalary()).append(";")
+                    .append((employee.getSalary() * convert)).append(";")
                     .append(System.lineSeparator());
         }
         return text.toString();
