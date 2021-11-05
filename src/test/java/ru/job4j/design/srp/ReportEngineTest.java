@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
@@ -14,7 +15,7 @@ import java.util.Comparator;
 public class ReportEngineTest {
 
     @Test
-    public void whenOldGenerated() {
+    public void whenOldGenerated() throws JAXBException {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
@@ -44,7 +45,7 @@ public class ReportEngineTest {
     }
 
     @Test
-    public void whenSalaryAnotherGenerated() {
+    public void whenSalaryAnotherGenerated() throws JAXBException {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
@@ -62,7 +63,7 @@ public class ReportEngineTest {
     }
 
     @Test
-    public void whenComparatorAndDeleteTwoFields() {
+    public void whenComparatorAndDeleteTwoFields() throws JAXBException {
         Comparator<Employee> comparator = (o1, o2) -> (int) (o2.getSalary() - o1.getSalary());
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
