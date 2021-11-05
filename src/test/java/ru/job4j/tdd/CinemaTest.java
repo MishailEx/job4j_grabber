@@ -1,6 +1,6 @@
 package ru.job4j.tdd;
 
-import static org.junit.Assert.assertFalse;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -15,7 +15,6 @@ import java.util.List;
 @Ignore
 public class CinemaTest {
 
-    @Ignore
     @Test
     public void buy() {
         Account account = new AccountCinema();
@@ -26,7 +25,6 @@ public class CinemaTest {
         assertThat(ticket, is(new Ticket3D()));
     }
 
-    @Ignore
     @Test
     public void find() {
         Cinema cinema = new Cinema3D();
@@ -35,16 +33,14 @@ public class CinemaTest {
         assertThat(sessions, is(Arrays.asList(new Session3D())));
     }
 
-    @Ignore
     @Test
     public void notFind() {
         Cinema cinema = new Cinema3D();
         cinema.add(new Session3D());
         List<Session> sessions = cinema.find(session -> false);
-        assertFalse(sessions, is(Arrays.asList(new Session2D())));
+        assertThat(sessions, not(Arrays.asList(new Session2D())));
     }
 
-    @Ignore
     @Test(expected = Exception.class)
     public void placeAlreadyBuy() {
         Account account = new AccountCinema();
@@ -55,7 +51,6 @@ public class CinemaTest {
         Ticket ticket2 = cinema.buy(account, 1, 1, date);
     }
 
-    @Ignore
     @Test(expected = Exception.class)
     public void wrongDate() {
         Account account = new AccountCinema();

@@ -14,7 +14,7 @@ public class MaxMinTest {
 
     @Test
     public void max() {
-        Comparator<Integer> comparator = Comparator.reverseOrder();
+        Comparator<Integer> comparator = Comparator.naturalOrder();
         List<Integer> list = new ArrayList<>();
         list.add(9);
         list.add(5);
@@ -27,7 +27,7 @@ public class MaxMinTest {
 
     @Test
     public void min() {
-        Comparator<Integer> comparator = Comparator.naturalOrder();
+        Comparator<Integer> comparator = Comparator.reverseOrder();
         List<Integer> list = new ArrayList<>();
         list.add(9);
         list.add(5);
