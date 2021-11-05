@@ -27,14 +27,14 @@ public class MaxMinTest {
 
     @Test
     public void min() {
-        Comparator<Integer> comparator = Comparator.reverseOrder();
+        Comparator<Integer> comparator = Comparator.naturalOrder();
         List<Integer> list = new ArrayList<>();
         list.add(9);
         list.add(5);
         list.add(7);
         list.add(2);
         MaxMin maxMin = new MaxMin();
-        int rsl = maxMin.max(list, comparator);
+        int rsl = maxMin.min(list, comparator);
         assertThat(rsl, is(2));
     }
 }
