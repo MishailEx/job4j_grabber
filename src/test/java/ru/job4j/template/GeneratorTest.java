@@ -15,7 +15,7 @@ public class GeneratorTest {
     @Test
     public void checkGeneratorThenOk() {
         String template = "I am a ${name}, Who are ${subject}?";
-        Generator generator = new GeneraorString();
+        Generator generator = new GeneratorString();
         Map<String, String> list = new HashMap<>();
         list.put("name", "Ivan");
         list.put("subject", "you");
@@ -24,20 +24,20 @@ public class GeneratorTest {
         assertThat(result, is(control));
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = IllegalArgumentException.class)
     public void checkGeneratorThenExcess() {
         String template = "I am a ${name}, Who are ${subject}, ${!}?";
-        Generator generator = new GeneraorString();
+        Generator generator = new GeneratorString();
         Map<String, String> list = new HashMap<>();
         list.put("name", "Ivan");
         list.put("subject", "you");
         String result = generator.produce(template, list);
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = IllegalArgumentException.class)
     public void checkGeneratorThenMapExcessKey() {
         String template = "I am a ${name}, Who are ${subject}?";
-        Generator generator = new GeneraorString();
+        Generator generator = new GeneratorString();
         Map<String, String> list = new HashMap<>();
         list.put("name", "Ivan");
         list.put("subject", "you");
