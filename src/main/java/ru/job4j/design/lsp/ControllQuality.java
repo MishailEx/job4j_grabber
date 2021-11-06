@@ -8,8 +8,6 @@ import ru.job4j.design.lsp.repositories.Shop;
 import ru.job4j.design.lsp.repositories.Trash;
 import ru.job4j.design.lsp.repositories.Warehouse;
 
-import java.text.ParseException;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
