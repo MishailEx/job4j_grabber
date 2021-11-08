@@ -1,21 +1,22 @@
-package ru.job4j.design.lsp;
+package ru.job4j.design.lsp.repositories;
 
 import ru.job4j.design.lsp.food.Food;
 
 import java.time.LocalDate;
 
-public class ProdDat {
-    public static int remainingShelfLife(Food food) {
+public class ProdDat implements Date {
+    @Override
+    public int remainingShelfLife(Food food) {
         return (int) ((LocalDate.now().toEpochDay()
                 - food.getCreateDate().toEpochDay()));
     }
-
-    public static int shelfLife(Food food) {
+    @Override
+    public int shelfLife(Food food) {
         return (int) ((food.getExpiryDate().toEpochDay()
                 - food.getCreateDate().toEpochDay()));
     }
-
-    public static boolean trash(Food food) {
+    @Override
+    public boolean trash(Food food) {
         return LocalDate.now().toEpochDay() > food.getExpiryDate().toEpochDay();
     }
 }

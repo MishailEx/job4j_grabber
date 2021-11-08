@@ -6,7 +6,9 @@ import java.util.List;
 
 
 public interface Placing {
-    void add(Food food);
+    boolean add(Food food);
+
     boolean test(Food food);
+
     List<Food> list();
 }
