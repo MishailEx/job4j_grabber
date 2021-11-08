@@ -14,7 +14,7 @@ public class ReportForIt implements Report {
 
     public boolean convertReport(String text, File file) {
         try (FileWriter fileWriter = new FileWriter(file)) {
-           fileWriter.write(text);
+            fileWriter.write(text);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -24,8 +24,16 @@ public class ReportForIt implements Report {
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        text.append("Name; Hired; Fired; Salary;");
-        text.append(System.lineSeparator());
+        text.append("<html>").append(System.lineSeparator())
+                .append("<head>")
+                .append(System.lineSeparator()).append("<title>")
+                .append(System.lineSeparator()).append("Список сотрудников для IT")
+                .append(System.lineSeparator()).append("</title>")
+                .append(System.lineSeparator()).append("</head>")
+                .append(System.lineSeparator()).append("<body>")
+                .append(System.lineSeparator())
+                .append("Name; Hired; Fired; Salary;")
+                .append(System.lineSeparator());
         for (Employee employee : store.findBy(filter)) {
             text.append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
@@ -33,6 +41,7 @@ public class ReportForIt implements Report {
                     .append(employee.getSalary()).append(";")
                     .append(System.lineSeparator());
         }
+        text.append("</body>").append(System.lineSeparator()).append("</html>");
         return text.toString();
     }
 }

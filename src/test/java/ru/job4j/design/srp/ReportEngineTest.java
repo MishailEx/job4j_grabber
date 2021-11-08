@@ -33,15 +33,23 @@ public class ReportEngineTest {
     }
 
     @Test
-    public void whenHtmlGenerated() throws IOException {
+    public void whenHtmlGenerated() {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        File file = new File("report.html");
-        file.createNewFile();
-        ReportForIt report = new ReportForIt(store);
-        assertTrue(report.convertReport(report.generate(em -> true), file));
+        String rsl = "<html>" + System.lineSeparator() + "<head>"
+                + System.lineSeparator() + "<title>"
+                + System.lineSeparator() + "Список сотрудников для IT"
+                + System.lineSeparator() + "</title>"
+                + System.lineSeparator() + "</head>"
+                + System.lineSeparator() + "<body>"
+                + System.lineSeparator() + "Name; Hired; Fired; Salary;"
+                + System.lineSeparator() + worker.getName() + ";" + worker.getHired()
+                + ";" + worker.getFired() + ";" + worker.getSalary() + ";" + System.lineSeparator()
+                + "</body>" + System.lineSeparator() + "</html>";
+                ReportForIt report = new ReportForIt(store);
+        assertThat(report.generate(em -> true), is(rsl));
     }
 
     @Test
