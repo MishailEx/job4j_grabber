@@ -1,10 +1,10 @@
 package ru.job4j.design.lsp.cars;
 
-public class Truck implements Cars {
+public class Truck implements Car {
     private int size;
 
     public Truck(int size) {
-        this.size = size;
+        this.size = size * Passenger.CAR_SIZE;
     }
 
     @Override

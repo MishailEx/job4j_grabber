@@ -1,5 +1,5 @@
 package ru.job4j.design.lsp.cars;
 
-public interface Cars {
+public interface Car {
     int size();
 }

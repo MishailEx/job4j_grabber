@@ -1,6 +1,6 @@
 package ru.job4j.design.lsp;
 
-import ru.job4j.design.lsp.cars.Cars;
+import ru.job4j.design.lsp.cars.Car;
 
 public class ParkingPass implements Parking {
     private int passPlace;
@@ -9,10 +9,10 @@ public class ParkingPass implements Parking {
         this.passPlace = passPlace;
     }
 
-    public boolean takePlace(Cars cars) {
+    public boolean takePlace(Car car) {
         boolean check = false;
-        if (passPlace >= cars.size()) {
-            passPlace -= cars.size();
+        if (passPlace >= car.size()) {
+            passPlace -= car.size();
             check = true;
             System.out.println("Авто припаркован");
         } else  {
@@ -25,17 +25,13 @@ public class ParkingPass implements Parking {
         return passPlace;
     }
 
-    public void setPassPlace(int passPlace) {
+    @Override
+    public void setPlace(int passPlace) {
         this.passPlace = passPlace;
     }
 
     @Override
     public int place() {
         return passPlace;
-    }
-
-    @Override
-    public void setPlace(int size) {
-        this.passPlace = size;
     }
 }
