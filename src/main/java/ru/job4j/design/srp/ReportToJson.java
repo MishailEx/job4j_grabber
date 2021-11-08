@@ -16,10 +16,7 @@ public class ReportToJson implements Report {
         StringBuilder text = new StringBuilder();
         text.append(System.lineSeparator());
         Gson gson = new GsonBuilder().create();
-        for (Employee employee : store.findBy(filter)) {
-            text.append(gson.toJson(employee))
-                    .append(System.lineSeparator());
-        }
+        gson.toJson(store.findBy(filter));
         return text.toString();
     }
 }

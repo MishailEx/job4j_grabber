@@ -22,14 +22,12 @@ public class ReportToXml implements Report {
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         StringBuilder text = new StringBuilder();
-        for (Employee employee : store.findBy(filter)) {
-            try (StringWriter writer = new StringWriter()) {
-                marshaller.marshal(employee, writer);
+        try (StringWriter writer = new StringWriter()) {
+                marshaller.marshal(store.findBy(filter), writer);
                 text.append(writer.getBuffer().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
         return text.toString();
     }
 }

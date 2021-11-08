@@ -2,13 +2,10 @@ package ru.job4j.design.srp;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
-import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Comparator;
 
