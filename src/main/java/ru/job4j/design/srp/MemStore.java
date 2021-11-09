@@ -1,14 +1,17 @@
 package ru.job4j.design.srp;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@XmlRootElement(name = "store")
 public class MemStore implements Store {
 
-    private final List<Employee> employees = new ArrayList<>();
+    private List<Employee> employees = new ArrayList<>();
+    @XmlElement(name = "employee")
+    private List<Employee> filterEmployees = new ArrayList<>();
 
     public void add(Employee em) {
         employees.add(em);
@@ -16,6 +19,7 @@ public class MemStore implements Store {
 
     @Override
     public List<Employee> findBy(Predicate<Employee> filter) {
-        return employees.stream().filter(filter).collect(Collectors.toList());
+        filterEmployees = employees.stream().filter(filter).collect(Collectors.toList());
+        return filterEmployees;
     }
 }

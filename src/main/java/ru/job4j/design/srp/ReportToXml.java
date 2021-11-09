@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import java.util.function.Predicate;
 
 public class ReportToXml implements Report {
+
     private Store store;
 
     public ReportToXml(Store store) {
@@ -18,12 +19,13 @@ public class ReportToXml implements Report {
 
     @Override
     public String generate(Predicate<Employee> filter) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance(Employee.class);
+        JAXBContext context = JAXBContext.newInstance(MemStore.class, Employee.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         StringBuilder text = new StringBuilder();
+        store.findBy(filter);
         try (StringWriter writer = new StringWriter()) {
-                marshaller.marshal(store.findBy(filter), writer);
+                marshaller.marshal(store, writer);
                 text.append(writer.getBuffer().toString());
             } catch (IOException e) {
                 e.printStackTrace();

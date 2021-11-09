@@ -8,6 +8,7 @@ import org.junit.Test;
 import javax.xml.bind.JAXBException;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 
 public class ReportEngineTest {
 
@@ -87,5 +88,38 @@ public class ReportEngineTest {
                 .append(worker.getSalary()).append(";")
                 .append(System.lineSeparator());
         assertThat(engine.generate((em -> true)), is(expect.toString()));
+    }
+
+    @Test
+    public void whenGsonGenerated() throws JAXBException {
+        MemStore store = new MemStore();
+        Calendar now = new GregorianCalendar(2017, 0 , 25);
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        String rsl = "[{\"name\":\"Ivan\",\"hired\":{\"year\":2017,"
+                + "\"month\":0,\"dayOfMonth\":25,\"hourOfDay\":0,\"minute\":0,\"second\":0},"
+                + "\"fired\":{\"year\":2017,\"month\":0,\"dayOfMonth\":25,"
+                + "\"hourOfDay\":0,\"minute\":0,\"second\":0},\"salary\":100.0}]";
+        Report report = new ReportToJson(store);
+        assertThat(report.generate(em -> true), is(rsl));
+    }
+
+    @Test
+    public void whenXmlGenerated() throws JAXBException {
+        MemStore store = new MemStore();
+        Calendar now = new GregorianCalendar(2017, 0 , 25);
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        String rsl = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+                "<store>\n" +
+                "    <employee>\n" +
+                "        <name>Ivan</name>\n" +
+                "        <hired>2017-01-25T00:00:00+03:00</hired>\n" +
+                "        <fired>2017-01-25T00:00:00+03:00</fired>\n" +
+                "        <salary>100.0</salary>\n" +
+                "    </employee>\n" +
+                "</store>\n";
+        Report report = new ReportToXml(store);
+        assertThat(report.generate(em -> true), is(rsl));
     }
 }
