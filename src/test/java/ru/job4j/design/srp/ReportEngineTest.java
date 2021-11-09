@@ -93,7 +93,7 @@ public class ReportEngineTest {
     @Test
     public void whenGsonGenerated() throws JAXBException {
         MemStore store = new MemStore();
-        Calendar now = new GregorianCalendar(2017, 0 , 25);
+        Calendar now = new GregorianCalendar(2017, Calendar.JANUARY , 25);
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         String rsl = "[{\"name\":\"Ivan\",\"hired\":{\"year\":2017,"
@@ -107,18 +107,18 @@ public class ReportEngineTest {
     @Test
     public void whenXmlGenerated() throws JAXBException {
         MemStore store = new MemStore();
-        Calendar now = new GregorianCalendar(2017, 0 , 25);
+        Calendar now = new GregorianCalendar(2017, Calendar.JANUARY , 25);
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         String rsl = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-                "<store>\n" +
-                "    <employee>\n" +
-                "        <name>Ivan</name>\n" +
-                "        <hired>2017-01-25T00:00:00+03:00</hired>\n" +
-                "        <fired>2017-01-25T00:00:00+03:00</fired>\n" +
-                "        <salary>100.0</salary>\n" +
-                "    </employee>\n" +
-                "</store>\n";
+                "<store>\n"
+                + "    <employee>\n"
+                + "        <name>Ivan</name>\n"
+                + "        <hired>2017-01-25T00:00:00+03:00</hired>\n"
+                + "        <fired>2017-01-25T00:00:00+03:00</fired>\n"
+                + "        <salary>100.0</salary>\n"
+                + "    </employee>\n"
+                + "</store>\n";
         Report report = new ReportToXml(store);
         assertThat(report.generate(em -> true), is(rsl));
     }
