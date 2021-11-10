@@ -1,6 +1,7 @@
 package ru.job4j.design.lsp;
 
 import ru.job4j.design.lsp.cars.Car;
+import ru.job4j.design.lsp.cars.Passenger;
 
 public class ParkingTruck implements Parking {
     private int truckPlace;
@@ -12,10 +13,12 @@ public class ParkingTruck implements Parking {
     @Override
     public boolean takePlace(Car car) {
         boolean check = false;
-        if (truckPlace >= car.size()) {
-            truckPlace -= car.size();
-            check = true;
-            System.out.println("Авто установлен на грузовой паркинг");
+        if (car.size() > Passenger.CAR_SIZE) {
+            if (truckPlace >= car.size()) {
+                truckPlace -= car.size();
+                check = true;
+                System.out.println("Авто установлен на грузовой паркинг");
+            }
         }
         return check;
     }

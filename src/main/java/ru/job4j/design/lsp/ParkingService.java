@@ -14,20 +14,19 @@ public class ParkingService {
 
     public boolean takePlace(Car car) {
         boolean check = false;
-        if (car.size() > Passenger.CAR_SIZE) {
-            if (parkingTrack.takePlace(car)) {
-                check = true;
-            } else if (parkingCar.place() >= car.size()) {
-                parkingCar.setPlace(parkingCar.place() - car.size());
-                check = true;
-                System.out.println("Авто установлен на места легковушек");
-            } else {
-                System.out.println("Мест нет");
-            }
-        }
         if (car.size() == Passenger.CAR_SIZE) {
             parkingCar.takePlace(car);
+            check = true;
+        } else if (parkingTrack.takePlace(car)) {
+            check = true;
+        } else if (parkingCar.place() >= car.size()) {
+            parkingCar.setPlace(parkingCar.place() - car.size());
+            check = true;
+            System.out.println("Авто установлен на места легковушек");
+        } else {
+            System.out.println("Мест нет");
         }
+
         return check;
     }
 }
