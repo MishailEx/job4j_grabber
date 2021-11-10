@@ -15,8 +15,7 @@ public class ParkingService {
     public boolean takePlace(Car car) {
         boolean check = false;
         if (car.size() == Passenger.CAR_SIZE) {
-            parkingCar.takePlace(car);
-            check = true;
+            check = parkingCar.takePlace(car);
         } else if (parkingTrack.takePlace(car)) {
             check = true;
         } else if (parkingCar.place() >= car.size()) {
