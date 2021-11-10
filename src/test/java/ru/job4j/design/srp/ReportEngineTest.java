@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class ReportEngineTest {
 
@@ -107,7 +108,8 @@ public class ReportEngineTest {
     @Test
     public void whenXmlGenerated() throws JAXBException {
         MemStore store = new MemStore();
-        Calendar now = new GregorianCalendar(2017, Calendar.JANUARY, 25);
+        Calendar now = new GregorianCalendar(2017, Calendar.JANUARY,  25);
+        now.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         String rsl = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
