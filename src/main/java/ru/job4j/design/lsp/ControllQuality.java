@@ -17,6 +17,12 @@ public class ControllQuality {
         }
     }
 
+    public void resort(List<Placing> list) {
+        List<Food> listFood = new ArrayList<>();
+        list.forEach(a -> listFood.addAll(a.list()));
+        listFood.forEach(f -> distribution(f, list));
+    }
+
     public static void main(String[] args) {
         Food food = new Bread("bread", LocalDate.of(2021, 12, 6),
                 LocalDate.of(2021, 10, 6), 200, 0.25);
@@ -32,5 +38,6 @@ public class ControllQuality {
         controllQuality.distribution(food, p);
         controllQuality.distribution(food2, p);
         shop.list().forEach(System.out::println);
+        controllQuality.resort(p);
     }
 }
