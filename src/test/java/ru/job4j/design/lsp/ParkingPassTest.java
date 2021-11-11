@@ -37,13 +37,13 @@ public class ParkingPassTest {
         Car cars = new Truck(5);
         Car cars1 = new Truck(4);
         Parking parkingPass = new ParkingPass(6);
-        Parking parkingTruck = new ParkingTruck(4);
+        Parking parkingTruck = new ParkingTruck(1);
         ParkingService service = new ParkingService(parkingPass, parkingTruck);
         service.takePlace(cars);
         service.takePlace(cars1);
         int expectedPass = parkingPass.place();
         int expectedTruck = parkingTruck.place();
-        assertEquals(expectedPass, 1);
+        assertEquals(expectedPass, 2);
         assertEquals(expectedTruck, 0);
     }
 }
