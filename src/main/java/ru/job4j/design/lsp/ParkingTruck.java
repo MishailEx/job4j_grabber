@@ -14,8 +14,8 @@ public class ParkingTruck implements Parking {
     public boolean takePlace(Car car) {
         boolean check = false;
         if (car.size() > Passenger.CAR_SIZE) {
-            if (truckPlace >= car.size()) {
-                truckPlace -= car.size();
+            if (truckPlace >= 1) {
+                truckPlace -= 1;
                 check = true;
                 System.out.println("Авто установлен на грузовой паркинг");
             }

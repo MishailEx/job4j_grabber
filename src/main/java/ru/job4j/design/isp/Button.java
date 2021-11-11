@@ -8,7 +8,6 @@ import java.util.Map;
 public class Button implements MenuItem, Search<String, Button> {
     private final Map<String, Button> child = new LinkedHashMap<>();
     private String name;
-
     private Action action;
     private int subNumber = 1;
     private String num;
