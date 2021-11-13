@@ -10,17 +10,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ControllQuality {
+    private final List<Placing> list;
 
-    public void distribution(Food food, List<Placing> list) {
+    public ControllQuality(List<Placing> list) {
+        this.list = list;
+    }
+
+    public void distribution(Food food) {
         for (Placing placing : list) {
             placing.add(food);
         }
     }
 
-    public void resort(List<Placing> list) {
+    public void resort() {
         List<Food> listFood = new ArrayList<>();
         list.forEach(a -> listFood.addAll(a.list()));
-        listFood.forEach(f -> distribution(f, list));
+        clear();
+        listFood.forEach(this::distribution);
+    }
+
+    private void clear() {
+        list.forEach(l -> l.list().clear());
     }
 
     public static void main(String[] args) {
@@ -34,10 +44,10 @@ public class ControllQuality {
         Placing warehouse = new Warehouse(new ArrayList<>(), date);
         Placing trash = new Trash(new ArrayList<>(), date);
         List<Placing> p = List.of(shop, warehouse, trash);
-        ControllQuality controllQuality = new ControllQuality();
-        controllQuality.distribution(food, p);
-        controllQuality.distribution(food2, p);
+        ControllQuality controllQuality = new ControllQuality(p);
+        controllQuality.distribution(food);
+        controllQuality.distribution(food2);
         shop.list().forEach(System.out::println);
-        controllQuality.resort(p);
+        controllQuality.resort();
     }
 }
