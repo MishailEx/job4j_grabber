@@ -5,26 +5,24 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class MenuClass implements Menu, Search<String, Button> {
+public class MenuClass implements Menu {
     private final Map<String, Button> menu = new LinkedHashMap<>();
     private int num = 1;
 
     private Button getButton(String name) {
-        Map<String, Button> mm = new LinkedHashMap<>();
-        for (Map.Entry<String, Button> s : getMap().entrySet()) {
-            mm.putAll(search(getMap(), new LinkedHashMap<>(), em -> em.getName().equals(name)));
-        }
-        return mm.get(name);
+        Predicate<Button> getBut = s -> s.getName().equals(name);
+        Map<String, Button> result = search(menu, new LinkedHashMap<>(), getBut);
+        return result.get(name);
     }
 
     @Override
     public String allMenu() throws ParseException {
-        Map<String, Button> mm = new LinkedHashMap<>();
-        for (Map.Entry<String, Button> s : getMap().entrySet()) {
-            mm.putAll(search(getMap(), new LinkedHashMap<>(), em -> true));
+        Map<String, Button> allList = new LinkedHashMap<>();
+        for (Map.Entry<String, Button> s : menu.entrySet()) {
+            allList.putAll(search(menu, new LinkedHashMap<>(), em -> true));
         }
         StringBuilder stringBuilder = new StringBuilder();
-        for (Map.Entry<String, Button> but : mm.entrySet()) {
+        for (Map.Entry<String, Button> but : allList.entrySet()) {
             stringBuilder.append(but.getValue().dash())
                     .append(but.getKey()).append(" ")
                     .append(but.getValue().getNum())
@@ -49,14 +47,13 @@ public class MenuClass implements Menu, Search<String, Button> {
     @Override
     public void addChild(String parentName, String childName, Action action) throws Exception {
         Button button = getButton(parentName);
-        if (button != null) {
-            Button buttonChild = new Button(childName, action);
-            buttonChild.setNum(button.getNum() + "." + button.getSubNumber());
-            button.setSubNumber(button.getSubNumber() + 1);
-            button.getChild().put(childName, buttonChild);
-        } else {
+        if (button == null) {
             throw new Exception("Элемент не найден");
         }
+        Button buttonChild = new Button(childName, action);
+        buttonChild.setNum(button.getNum() + "." + button.getSubNumber());
+        button.setSubNumber(button.getSubNumber() + 1);
+        button.getChild().put(childName, buttonChild);
     }
 
     @Override
@@ -74,10 +71,5 @@ public class MenuClass implements Menu, Search<String, Button> {
     public Action select(String itemName) {
         Button button = getButton(itemName);
         return button != null ? button.getAction() : null;
-    }
-
-    @Override
-    public Map<String, Button> getMap() {
-        return menu;
     }
 }

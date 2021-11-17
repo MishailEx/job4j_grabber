@@ -17,6 +17,7 @@ public class MenuConsole implements ShowMenu {
         menu.addChild("start", "uuu", new ActionBut());
         menu.addChild("ppp", "ooo", new ActionBut());
         showMenu.show(menu.allMenu());
+        menu.select("www").act();
     }
 
 
