@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Button implements MenuItem, Search<String, Button> {
+public class Button implements MenuItem {
     private final Map<String, Button> child = new LinkedHashMap<>();
     private String name;
     private Action action;
@@ -62,7 +62,6 @@ public class Button implements MenuItem, Search<String, Button> {
         this.num = num;
     }
 
-    @Override
     public Map<String, Button> getMap() {
         return child;
     }

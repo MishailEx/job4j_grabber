@@ -11,8 +11,7 @@ public class MenuClass implements Menu {
 
     private Button getButton(String name) {
         Predicate<Button> getBut = s -> s.getName().equals(name);
-        Map<String, Button> result = search(menu, new LinkedHashMap<>(), getBut);
-        return result.get(name);
+        return searchBut(menu, getBut);
     }
 
     @Override
@@ -31,7 +30,22 @@ public class MenuClass implements Menu {
         return stringBuilder.toString();
     }
 
-    public Map<String, Button> search(Map<String, Button> map, Map<String, Button> mapSearch, Predicate<Button> predicate) {
+    private Button searchBut(Map<String, Button> mapSearch, Predicate<Button> predicate) {
+        Button button = null;
+        for (Map.Entry<String, Button> but : mapSearch.entrySet()) {
+            if (predicate.test(but.getValue())) {
+                button = but.getValue();
+                break;
+            }
+            if (!but.getValue().getMap().isEmpty()) {
+                button = searchBut(but.getValue().getMap(), predicate);
+            }
+        }
+        return button;
+    }
+
+    private Map<String, Button> search(Map<String, Button> map, Map<String, Button> mapSearch,
+                                       Predicate<Button> predicate) {
         for (Map.Entry<String, Button> but : map.entrySet()) {
             if (predicate.test(but.getValue())) {
                 mapSearch.put(but.getKey(), but.getValue());
